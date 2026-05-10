@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonjour Crêpes — Saint John Pop-Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF5E6;
+    --cream-dark: #F0E6CC;
+    --espresso: #1E0F06;
+    --brown: #3D1F0D;
+    --gold: #C8870A;
+    --gold-light: #F5D080;
+    --sage: #5C7A5C;
+    --warm-white: #FDFAF3;
+    --text-mid: #5A3A20;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--espresso);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(251,245,230,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(200,135,10,0.15);
+    transition: padding 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--espresso);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  nav ul {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  nav ul a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--espresso);
+    color: var(--cream) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold) !important; color: var(--espresso) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 5.5vw, 76px);
+    font-weight: 700;
+    line-height: 1.0;
+    color: var(--espresso);
+    margin-bottom: 24px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-mid);
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 14px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+
+  .btn-secondary {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .btn-secondary:hover { color: var(--gold); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .crepe-illustration {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(200,135,10,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(200,135,10,0.3);
+  }
+
+  .crepe-illustration svg {
+    width: 140px;
+    height: 140px;
+    opacity: 0.85;
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+    background: var(--gold);
+    color: var(--espresso);
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 3.5vw, 52px);
+    font-weight: 600;
+    text-align: center;
+    color: var(--espresso);
+    line-height: 1.1;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--warm-white);
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-image {
+    aspect-ratio: 4/5;
+    background: var(--cream-dark);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+  }
+
+  .about-image-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.12;
+  }
+
+  .about-image-bg svg { width: 280px; height: 280px; }
+
+  .about-label {
+    position: relative;
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 12px 20px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  .about-text { padding: 20px 0; }
+
+  .about-text .section-eyebrow { text-align: left; }
+  .about-text .section-title { text-align: left; margin-bottom: 24px; }
+
+  .about-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 32px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--cream-dark);
+    padding-top: 32px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-mid);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── MENU ── */
+  #menu {
+    padding: 100px 80px;
+    background: var(--cream);
+  }
+
+  #menu .section-title { margin-bottom: 8px; }
+  #menu .section-eyebrow { margin-bottom: 10px; }
+
+  .menu-sub {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-mid);
+    margin-bottom: 60px;
+    font-weight: 300;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .menu-card {
+    background: var(--warm-white);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .menu-card:hover { transform: translateY(-4px); }
+
+  .menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--cream-dark);
+  }
+
+  .menu-card.featured::before { background: var(--gold); }
+
+  .menu-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(200,135,10,0.1);
+    padding: 4px 10px;
+    margin-bottom: 16px;
+    border-radius: 1px;
+  }
+
+  .menu-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--espresso);
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .menu-card p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .menu-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--espresso);
+  }
+
+  /* ── FIND US ── */
+  #find-us {
+    background: var(--espresso);
+    padding: 100px 80px;
+    color: var(--cream);
+  }
+
+  #find-us .section-title { color: var(--cream); }
+  #find-us .section-eyebrow { margin-bottom: 10px; }
+
+  .find-us-sub {
+    text-align: center;
+    font-size: 15px;
+    color: rgba(251,245,230,0.6);
+    margin-bottom: 60px;
+  }
+
+  .markets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .market-card {
+    border: 1px solid rgba(200,135,10,0.25);
+    padding: 32px 28px;
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .market-card:hover {
+    border-color: var(--gold);
+    background: rgba(200,135,10,0.05);
+  }
+
+  .market-day {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .market-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .market-detail {
+    font-size: 13px;
+    color: rgba(251,245,230,0.55);
+    line-height: 1.6;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials {
+    padding: 100px 80px;
+    background: var(--cream-dark);
+  }
+
+  #testimonials .section-title { margin-bottom: 56px; }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .testimonial-card {
+    background: var(--warm-white);
+    padding: 36px 32px;
+  }
+
+  .stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--espresso);
+    margin-bottom: 24px;
+  }
+
+  .testimonial-author {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    border-top: 1px solid var(--cream-dark);
+    padding-top: 16px;
+  }
+
+  /* ── CTA ── */
+  #cta {
+    background: var(--gold);
+    padding: 80px;
+    text-align: center;
+  }
+
+  #cta .section-title {
+    color: var(--espresso);
+    font-size: clamp(32px, 4vw, 52px);
+    margin-bottom: 16px;
+  }
+
+  #cta p {
+    font-size: 16px;
+    color: var(--espresso);
+    opacity: 0.75;
+    margin-bottom: 40px;
+  }
+
+  .btn-dark {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 16px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+
+  .btn-dark:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 56px 80px 36px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(251,245,230,0.1);
+    margin-bottom: 32px;
+  }
+
+  .footer-brand .nav-logo {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 24px;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .footer-brand p {
+    font-size: 13px;
+    color: rgba(251,245,230,0.5);
+    line-height: 1.7;
+    max-width: 240px;
+  }
+
+  .footer-col h4 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-col ul li a {
+    font-size: 13px;
+    color: rgba(251,245,230,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--gold); }
+
+  .footer-col address {
+    font-style: normal;
+    font-size: 13px;
+    color: rgba(251,245,230,0.55);
+    line-height: 1.8;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 12px;
+    color: rgba(251,245,230,0.3);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .social-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(251,245,230,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover { color: var(--gold); }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Bonjour <span>Crêpes</span></a>
+  <ul>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#find-us">Find Us</a></li>
+    <li><a href="#cta" class="nav-cta">Book for Events</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left fade-in">
+    <div class="hero-eyebrow">Saint John, New Brunswick</div>
+    <h1 class="hero-title">
+      Handmade<br>
+      <em>Crêpes</em><br>
+      with Love
+    </h1>
+    <p class="hero-sub">
+      Fresh, golden, made-to-order crêpes at the Saint John City Market and weekend pop-ups across the city. Sweet or savoury — always made in front of you.
+    </p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn-primary">See the Menu</a>
+      <a href="#find-us" class="btn-secondary">Find us this weekend</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/Hero_Crepes.png" alt="Fresh handmade crêpes with strawberries and blueberries at Bonjour Crêpes">
+    <div class="hero-badge">Pop-Up<br>Since<br>2022</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image fade-in">
+    <img src="images/Crepes_skillet.jpg" alt="Crêpe being made on a cast iron skillet at Saint John City Market" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+    <div class="about-label">Mornings at City Market · Est. 2022</div>
+  </div>
+  <div class="about-text fade-in">
+    <div class="section-eyebrow">Our Story</div>
+    <h2 class="section-title">Born at the<br><em>City Market</em></h2>
+    <p class="about-body">
+      It started with a cast iron pan, a family recipe from Brittany, and a Saturday morning spot at the Saint John City Market. What was meant to be a weekend hobby turned into something the lineup wouldn't let us stop.
+      <br><br>
+      We keep it simple — fresh batter, local toppings, made in front of you. No rush. Just really good crêpes.
+    </p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years at City Market</div>
+      </div>
+      <div>
+        <div class="stat-num">12K</div>
+        <div class="stat-label">Crêpes served</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Made to order</div>
+      </div>
+      <div>
+        <div class="stat-num">NB</div>
+        <div class="stat-label">Local ingredients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-eyebrow">What We Make</div>
+  <h2 class="section-title">The <em>Menu</em></h2>
+  <p class="menu-sub">Everything made fresh, in front of you, every time.</p>
+  <div class="menu-grid">
+    <div class="menu-card fade-in">
+      <div class="menu-tag">Sweet</div>
+      <h3>Classic Lemon<br>& Sugar</h3>
+      <p>Thin golden crêpe, fresh squeezed lemon, a dusting of fine sugar. The one that started it all.</p>
+      <div class="menu-price">$7</div>
+    </div>
+    <div class="menu-card featured fade-in">
+      <div class="menu-tag">⭑ Most Popular</div>
+      <h3>Nutella &<br>Strawberry</h3>
+      <p>House-made crêpe folded around warm Nutella and fresh local strawberries. A City Market favourite.</p>
+      <div class="menu-price">$9</div>
+    </div>
+    <div class="menu-card fade-in">
+      <div class="menu-tag">Savoury</div>
+      <h3>Spinach, Egg<br>& Gruyère</h3>
+      <p>Buckwheat crêpe with wilted spinach, a soft egg, and melted Gruyère. Perfect for a Saturday morning.</p>
+      <div class="menu-price">$11</div>
+    </div>
+  </div>
+</section>
+
+<!-- FIND US -->
+<section id="find-us">
+  <div class="section-eyebrow">Where We'll Be</div>
+  <h2 class="section-title" style="color:var(--cream)">Find Us This <em>Weekend</em></h2>
+  <p class="find-us-sub">We rotate between three locations — follow us on Instagram for last-minute spots.</p>
+  <div class="markets-grid">
+    <div class="market-card fade-in">
+      <div class="market-day">Every Saturday · 8am – 1pm</div>
+      <div class="market-name">Saint John City Market</div>
+      <div class="market-detail">47 Charlotte St, Saint John<br>North America's oldest farmers market. Look for the golden banner near the King Street entrance.</div>
+    </div>
+    <div class="market-card fade-in">
+      <div class="market-day">Every Sunday · 9am – 2pm</div>
+      <div class="market-name">Rockwood Park</div>
+      <div class="market-detail">Sandy Point Rd, Saint John<br>Weekend pop-up near the main park entrance. Grab a crêpe before your morning walk.</div>
+    </div>
+    <div class="market-card fade-in">
+      <div class="market-day">Monthly · Check Instagram</div>
+      <div class="market-name">Uptown Events</div>
+      <div class="market-detail">Various Uptown Saint John locations<br>We show up at Uptown street events, festivals, and markets. Follow @bonjourcrêpes for the latest.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-eyebrow">What People Say</div>
+  <h2 class="section-title">The <em>Reviews</em></h2>
+  <div class="testimonial-grid">
+    <div class="testimonial-card fade-in">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"The best thing at the City Market, and I've been going for twenty years. The lemon sugar crêpe is perfection."</p>
+      <div class="testimonial-author">— Margaret T., Saint John</div>
+    </div>
+    <div class="testimonial-card fade-in">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"We hired Bonjour Crêpes for our office Christmas party. Everyone is still talking about it three months later."</p>
+      <div class="testimonial-author">— James R., Uptown Business Owner</div>
+    </div>
+    <div class="testimonial-card fade-in">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"My kids drag me to Rockwood Park every Sunday now. Honestly, I don't mind the excuse. The Nutella one is unreal."</p>
+      <div class="testimonial-author">— Sarah K., Grand Bay–Westfield</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="section-title">Bring Bonjour Crêpes<br>to <em>Your Event</em></h2>
+  <p>Private parties, corporate events, weddings, and markets. We bring everything — just bring the guests.</p>
+  <a href="mailto:hello@bonjourcrepes.ca" class="btn-dark">Get in Touch</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#hero" style="font-family:'Cormorant Garamond',serif;font-size:24px;">Bonjour <span style="color:var(--gold)">Crêpes</span></a>
+      <p>Handmade crêpes at markets and pop-ups across Saint John, New Brunswick. Made fresh. Always worth the wait.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Sweet Crêpes</a></li>
+        <li><a href="#menu">Savoury Crêpes</a></li>
+        <li><a href="#menu">Seasonal Specials</a></li>
+        <li><a href="#cta">Event Catering</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Find Us</h4>
+      <ul>
+        <li><a href="#find-us">City Market</a></li>
+        <li><a href="#find-us">Rockwood Park</a></li>
+        <li><a href="#find-us">Uptown Events</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address>
+        hello@bonjourcrepes.ca<br>
+        (506) 555-0134<br>
+        Saint John, NB
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Bonjour Crêpes. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
