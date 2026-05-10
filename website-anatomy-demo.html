@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How a One-Page Website Works — Workshop Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF5E6;
+    --cream-dark: #F0E6CC;
+    --espresso: #1E0F06;
+    --brown: #3D1F0D;
+    --gold: #C8870A;
+    --gold-light: #FAEEDA;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-mid: #1D9E75;
+    --warm-white: #FDFAF3;
+    --text-mid: #5A3A20;
+    --panel-w: 360px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--espresso);
+    overflow-x: hidden;
+  }
+
+  /* ── TUTORIAL BAR ── */
+  .tutorial-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 300;
+    background: var(--espresso);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .tbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tbar-badge {
+    background: var(--gold);
+    color: var(--espresso);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  .tbar-hint { color: rgba(251,245,230,0.55); }
+
+  .tbar-steps {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .tbar-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tbar-dot:hover { border-color: var(--gold); color: var(--gold); }
+  .tbar-dot.active { background: var(--gold); border-color: var(--gold); color: var(--espresso); font-weight: 500; }
+
+  /* ── SECTION WRAPPER ── */
+  .annotated {
+    position: relative;
+    cursor: pointer;
+    transition: outline 0.2s;
+    outline: 3px solid transparent;
+    outline-offset: -3px;
+  }
+
+  .annotated:hover { outline-color: rgba(200,135,10,0.4); }
+  .annotated.active-section { outline-color: var(--gold); }
+
+  /* ── SECTION LABEL BADGE ── */
+  .sec-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 60;
+    background: var(--espresso);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    transition: background 0.2s;
+  }
+
+  .sec-badge-num {
+    background: var(--gold);
+    color: var(--espresso);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .click-hint {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    font-size: 10px;
+    color: rgba(30,15,6,0.35);
+    letter-spacing: 0.06em;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .annotated:hover .click-hint { color: var(--gold); }
+
+  /* ── SLIDE PANEL ── */
+  .panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30,15,6,0.35);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .panel-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .side-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--panel-w);
+    background: var(--warm-white);
+    z-index: 210;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: -4px 0 32px rgba(30,15,6,0.15);
+  }
+
+  .side-panel.open { transform: translateX(0); }
+
+  /* Panel header */
+  .panel-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--cream-dark);
+    flex-shrink: 0;
+  }
+
+  .panel-section-num {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--espresso);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .panel-role {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  /* Panel body */
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+
+  .panel-section-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(90,58,32,0.5);
+    margin-bottom: 10px;
+    margin-top: 18px;
+  }
+
+  .panel-section-label:first-child { margin-top: 0; }
+
+  /* Contains tags */
+  .contains-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .contains-tag {
+    background: var(--teal-light);
+    border: 1px solid #9FE1CB;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--teal);
+  }
+
+  /* Prompt box */
+  .panel-prompt {
+    background: #F6FAF8;
+    border: 1px solid #9FE1CB;
+    border-left: 4px solid var(--teal-mid);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: var(--espresso);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .fill-in {
+    display: inline-block;
+    background: #FAF0C8;
+    border-bottom: 1.5px solid var(--gold);
+    padding: 0 3px;
+    border-radius: 2px;
+    font-style: normal;
+    font-size: 11.5px;
+  }
+
+  /* Tip */
+  .panel-tip {
+    background: var(--gold-light);
+    border: 1px solid #FAC775;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.55;
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Panel footer nav */
+  .panel-foot {
+    padding: 16px 24px;
+    border-top: 1px solid var(--cream-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .panel-close {
+    font-size: 12px;
+    color: rgba(90,58,32,0.5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .panel-close:hover { color: var(--espresso); }
+
+  .panel-nav-btns {
+    display: flex;
+    gap: 8px;
+  }
+
+  .panel-nav-btn {
+    background: var(--espresso);
+    color: var(--cream);
+    border: none;
+    border-radius: 3px;
+    padding: 8px 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .panel-nav-btn:hover { background: var(--gold); color: var(--espresso); }
+  .panel-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .panel-nav-btn:disabled:hover { background: var(--espresso); color: var(--cream); }
+
+  /* ══════════════════════ WEBSITE SECTIONS ══════════════════════ */
+
+  /* NAV */
+  #s-nav {
+    padding-top: 36px; /* tutorial bar */
+    position: sticky;
+    top: 36px;
+    z-index: 50;
+    background: rgba(251,245,230,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(200,135,10,0.15);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 48px;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--espresso);
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    text-decoration: none;
+  }
+
+  .nav-cta-btn {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 9px 20px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+  }
+
+  /* HERO */
+  #s-hero {
+    min-height: 90vh;
+    position: relative;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+  }
+
+  .hero-l {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 72px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+  .hero-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 5vw, 68px);
+    font-weight: 700;
+    line-height: 1.0;
+    margin-bottom: 20px;
+  }
+
+  .hero-h1 em { font-style: italic; color: var(--gold); }
+
+  .hero-sub {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    max-width: 380px;
+    margin-bottom: 36px;
+  }
+
+  .hero-btns { display: flex; gap: 16px; align-items: center; }
+
+  .btn-p {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 13px 28px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-s {
+    font-size: 12px;
+    color: var(--text-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-r {
+    background: var(--espresso);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+
+  .hero-img-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(200,135,10,0.12);
+    border: 1px solid rgba(200,135,10,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-img-circle svg { width: 110px; height: 110px; opacity: 0.75; }
+
+  .hero-badge-circle {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    background: var(--gold);
+    color: var(--espresso);
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ABOUT */
+  #s-about {
+    background: var(--warm-white);
+    position: relative;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+    padding: 90px 72px;
+  }
+
+  .about-img-box {
+    aspect-ratio: 4/5;
+    background: var(--cream-dark);
+    border-radius: 2px;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-img-label {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 10px 16px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    position: relative;
+    z-index: 2;
+  }
+
+  .about-watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.07;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 100px;
+    font-weight: 700;
+    color: var(--espresso);
+  }
+
+  .about-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .about-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 3vw, 44px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .about-h2 em { font-style: italic; color: var(--gold); }
+
+  .about-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 28px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid var(--cream-dark);
+    padding-top: 28px;
+  }
+
+  .stat-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .stat-l { font-size: 11px; color: var(--text-mid); }
+
+  /* SERVICES */
+  #s-services {
+    padding: 90px 72px;
+    background: var(--cream);
+  }
+
+  .services-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 10px; }
+
+  .services-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 3vw, 44px);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .services-h2 em { font-style: italic; color: var(--gold); }
+
+  .services-sub { text-align: center; font-size: 14px; color: var(--text-mid); margin-bottom: 52px; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--warm-white);
+    padding: 40px 30px;
+    position: relative;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--cream-dark);
+  }
+
+  .service-card.featured::before { background: var(--gold); }
+
+  .service-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(200,135,10,0.1);
+    padding: 3px 9px;
+    margin-bottom: 14px;
+    border-radius: 1px;
+  }
+
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+
+  .service-card p { font-size: 13px; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+  .service-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; }
+
+  /* TESTIMONIALS */
+  #s-testimonials {
+    padding: 90px 72px;
+    background: var(--cream-dark);
+  }
+
+  .testi-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 10px; }
+
+  .testi-h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 3vw, 44px);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .testi-h2 em { font-style: italic; color: var(--gold); }
+
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+  .testi-card { background: var(--warm-white); padding: 32px 28px; }
+
+  .stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
+
+  .testi-q {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--espresso);
+    margin-bottom: 20px;
+  }
+
+  .testi-author {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    border-top: 1px solid var(--cream-dark);
+    padding-top: 14px;
+  }
+
+  /* CTA */
+  #s-cta {
+    background: var(--gold);
+    padding: 72px 72px;
+    text-align: center;
+  }
+
+  #s-cta h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  #s-cta h2 em { font-style: italic; }
+
+  #s-cta p { font-size: 15px; color: var(--espresso); opacity: 0.7; margin-bottom: 36px; }
+
+  .btn-dark {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 14px 36px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.15s;
+  }
+
+  .btn-dark:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  #s-footer {
+    background: var(--brown);
+    padding: 52px 72px 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(251,245,230,0.1);
+    margin-bottom: 28px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .footer-brand-name span { color: var(--gold); }
+  .footer-brand p { font-size: 12px; color: rgba(251,245,230,0.4); line-height: 1.7; max-width: 200px; }
+
+  .footer-col h4 { font-size: 10px; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 7px; }
+  .footer-col ul li a { font-size: 12px; color: rgba(251,245,230,0.45); text-decoration: none; }
+  .footer-col address { font-style: normal; font-size: 12px; color: rgba(251,245,230,0.45); line-height: 1.8; }
+
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 11px; color: rgba(251,245,230,0.25); }
+  .footer-socials { display: flex; gap: 16px; }
+  .footer-socials a { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(251,245,230,0.35); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- TUTORIAL BAR -->
+<div class="tutorial-bar">
+  <div class="tbar-left">
+    <span class="tbar-badge">Workshop Demo</span>
+    <span class="tbar-hint">Click any section to learn what it does</span>
+  </div>
+  <div class="tbar-steps" id="tbar-steps"></div>
+</div>
+
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel" id="side-panel">
+  <div class="panel-head" id="panel-head"></div>
+  <div class="panel-body" id="panel-body"></div>
+  <div class="panel-foot">
+    <button class="panel-close" onclick="closePanel()">✕ Close</button>
+    <div class="panel-nav-btns">
+      <button class="panel-nav-btn" id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button class="panel-nav-btn" id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ WEBSITE SECTIONS ══════════════ -->
+
+<!-- 1. NAV -->
+<div class="annotated" id="s-nav" onclick="openPanel(0)">
+  <div class="sec-badge"><div class="sec-badge-num">1</div> Nav Bar</div>
+  <div class="click-hint">Click to learn ↗</div>
+  <nav class="nav-inner">
+    <div class="nav-logo">Bonjour <span>Crêpes</span></div>
+    <ul class="nav-links">
+      <li><a href="#">Our Story</a></li>
+      <li><a href="#">Menu</a></li>
+      <li><a href="#">Find Us</a></li>
+    </ul>
+    <a href="#" class="nav-cta-btn">Book for Events</a>
+  </nav>
+</div>
+
+<!-- 2. HERO -->
+<div class="annotated" id="s-hero" onclick="openPanel(1)">
+  <div class="sec-badge"><div class="sec-badge-num">2</div> Hero Section</div>
+  <div class="click-hint">Click to learn ↗</div>
+  <div class="hero-grid">
+    <div class="hero-l">
+      <div class="hero-eyebrow">Saint John, New Brunswick</div>
+      <h1 class="hero-h1">Handmade<br><em>Crêpes</em><br>with Love</h1>
+      <p class="hero-sub">Fresh, golden, made-to-order crêpes at the Saint John City Market and weekend pop-ups. Sweet or savoury — always made in front of you.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-p">See the Menu</a>
+        <a href="#" class="btn-s">Find us this weekend</a>
+      </div>
+    </div>
+    <div class="hero-r">
+      <div class="hero-img-circle">
+        <svg viewBox="0 0 110 110" fill="none">
+          <ellipse cx="55" cy="55" rx="46" ry="15" fill="#C8870A" opacity="0.7"/>
+          <ellipse cx="55" cy="51" rx="40" ry="11" fill="#D4921E" opacity="0.6"/>
+          <path d="M16 54 Q55 42 94 54" stroke="#E8A020" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <circle cx="41" cy="49" r="5" fill="#B85C20" opacity="0.7"/>
+          <circle cx="55" cy="46" r="4" fill="#8B2A1A" opacity="0.6"/>
+          <circle cx="69" cy="49" r="3.5" fill="#B85C20" opacity="0.7"/>
+        </svg>
+      </div>
+      <p style="color:rgba(251,245,230,0.25);font-size:10px;letter-spacing:0.1em;text-transform:uppercase">Your photo here</p>
+      <div class="hero-badge-circle">Pop-Up<br>Since<br>2022</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. ABOUT -->
+<div class="annotated" id="s-about" onclick="openPanel(2)">
+  <div class="sec-badge"><div class="sec-badge-num">3</div> About Section</div>
+  <div class="click-hint">Click to learn ↗</div>
+  <div class="about-grid">
+    <div class="about-img-box">
+      <div class="about-watermark">C</div>
+      <div class="about-img-label">Mornings at City Market · Est. 2022</div>
+    </div>
+    <div>
+      <div class="about-eyebrow">Our Story</div>
+      <h2 class="about-h2">Born at the<br><em>City Market</em></h2>
+      <p class="about-body">It started with a cast iron pan, a family recipe from Brittany, and a Saturday morning spot at the Saint John City Market. What was meant to be a weekend hobby turned into something the lineup wouldn't let us stop.</p>
+      <div class="about-stats">
+        <div><div class="stat-n">3+</div><div class="stat-l">Years at City Market</div></div>
+        <div><div class="stat-n">12K</div><div class="stat-l">Crêpes served</div></div>
+        <div><div class="stat-n">100%</div><div class="stat-l">Made to order</div></div>
+        <div><div class="stat-n">NB</div><div class="stat-l">Local ingredients</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. SERVICES -->
+<div class="annotated" id="s-services" onclick="openPanel(3)">
+  <div class="sec-badge"><div class="sec-badge-num">4</div> Services / Menu</div>
+  <div class="click-hint">Click to learn ↗</div>
+  <div class="services-eyebrow">What We Make</div>
+  <h2 class="services-h2">The <em>Menu</em></h2>
+  <p class="services-sub">Everything made fresh, in front of you, every time.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-tag">Sweet</div>
+      <h3>Classic Lemon<br>& Sugar</h3>
+      <p>Thin golden crêpe, fresh squeezed lemon, a dusting of fine sugar. The one that started it all.</p>
+      <div class="service-price">$7</div>
+    </div>
+    <div class="service-card featured">
+      <div class="service-tag">⭑ Most Popular</div>
+      <h3>Nutella &<br>Strawberry</h3>
+      <p>House-made crêpe folded around warm Nutella and fresh local strawberries. A City Market favourite.</p>
+      <div class="service-price">$9</div>
+    </div>
+    <div class="service-card">
+      <div class="service-tag">Savoury</div>
+      <h3>Spinach, Egg<br>& Gruyère</h3>
+      <p>Buckwheat crêpe with wilted spinach, a soft egg, and melted Gruyère. Perfect for a Saturday morning.</p>
+      <div class="service-price">$11</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. TESTIMONIALS -->
+<div class="annotated" id="s-testimonials" onclick="openPanel(4)">
+  <div class="sec-badge"><div class="sec-badge-num">5</div> Testimonials</div>
+  <div class="click-hint">Click to learn ↗</div>
+  <div class="testi-eyebrow">What People Say</div>
+  <h2 class="testi-h2">The <em>Reviews</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-q">"The best thing at the City Market, and I've been going for twenty years."</p>
+      <div class="testi-author">— Margaret T., Saint John</div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-q">"We hired them for our office party. Everyone is still talking about it."</p>
+      <div class="testi-author">— James R., Uptown Business Owner</div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-q">"My kids drag me to Rockwood Park every Sunday. I don't mind the excuse."</p>
+      <div class="testi-author">— Sarah K., Grand Bay–Westfield</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. CTA -->
+<div class="annotated" id="s-cta" onclick="openPanel(5)">
+  <div class="sec-badge"><div class="sec-badge-num">6</div> CTA Banner</div>
+  <div class="click-hint" style="color:rgba(30,15,6,0.4);">Click to learn ↗</div>
+  <h2>Bring Bonjour Crêpes<br>to <em>Your Event</em></h2>
+  <p>Private parties, corporate events, weddings, and markets. We bring everything — just bring the guests.</p>
+  <a href="#" class="btn-dark">Get in Touch</a>
+</div>
+
+<!-- 7. FOOTER -->
+<div class="annotated" id="s-footer" onclick="openPanel(6)">
+  <div class="sec-badge"><div class="sec-badge-num">7</div> Footer</div>
+  <div class="click-hint" style="color:rgba(251,245,230,0.25);">Click to learn ↗</div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Bonjour <span>Crêpes</span></div>
+      <p>Handmade crêpes at markets and pop-ups across Saint John, NB.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul><li><a href="#">Sweet Crêpes</a></li><li><a href="#">Savoury Crêpes</a></li><li><a href="#">Event Catering</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Find Us</h4>
+      <ul><li><a href="#">City Market</a></li><li><a href="#">Rockwood Park</a></li><li><a href="#">Uptown Events</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address>hello@bonjourcrepes.ca<br>(506) 555-0134<br>Saint John, NB</address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Bonjour Crêpes. All rights reserved.</p>
+    <div class="footer-socials"><a href="#">Instagram</a><a href="#">Facebook</a></div>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {
+    num: '01',
+    name: 'Navigation Bar',
+    role: 'The nav bar sits at the top of every page and stays visible as visitors scroll. It tells people whose site they\'re on and lets them jump to any section instantly.',
+    contains: ['Business name or logo', 'Menu links (4 maximum)', 'Contact or booking button', 'Stays fixed while scrolling'],
+    tip: '💡 Keep it simple. 4 links maximum. Always include one action button — "Book Now", "Get a Quote", or "Contact Us".',
+    prompt: '"Add a navigation bar with my business name <span class=fill-in>name</span> on the left, menu links for <span class=fill-in>link 1</span>, <span class=fill-in>link 2</span>, <span class=fill-in>link 3</span>, and a button on the right that says <span class=fill-in>CTA</span>. Fixed at top, minimal style."'
+  },
+  {
+    num: '02',
+    name: 'Hero Section',
+    role: 'The very first thing visitors see when they land on your site. You have about 3 seconds to tell them what you do and why they should care. One headline. One button. That\'s it.',
+    contains: ['Bold headline (your main message)', 'One-line tagline', 'Single call-to-action button', 'Background image or colour'],
+    tip: '💡 Don\'t try to say everything here. The headline should answer one question: "What do you do?" Save the details for below.',
+    prompt: '"Create a full-height hero section. Headline: <span class=fill-in>your headline</span>. Tagline: <span class=fill-in>your tagline</span>. Button: <span class=fill-in>CTA text</span>. Background colour: <span class=fill-in>colour</span>. Bold text on the left side."'
+  },
+  {
+    num: '03',
+    name: 'About Section',
+    role: 'People buy from people they like and trust. A short, honest story about you or your business builds that trust faster than any list of features could.',
+    contains: ['2–3 sentence origin story', 'Why you started', 'What makes you different', 'Optional: your photo'],
+    tip: '💡 Don\'t have a professional photo? Use a placeholder image now and swap it in later. The words matter more than the picture.',
+    prompt: '"Add an About section. Left side: a photo placeholder. Right side: heading \'Our Story\', then this text: <span class=fill-in>paste your About text from Claude</span>. Light background."'
+  },
+  {
+    num: '04',
+    name: 'Services or Menu',
+    role: 'Show visitors exactly what you offer and what it costs. Three options is the sweet spot — too many choices and people stop choosing altogether.',
+    contains: ['3 service or product cards', 'Name + short description', 'Price (optional but helpful)', 'Side-by-side card layout'],
+    tip: '💡 Write your service descriptions in Claude first, then paste them in. Claude will make them sound much more polished than typing on the spot.',
+    prompt: '"Add a Services section with 3 cards side by side. Card 1: <span class=fill-in>name</span> — <span class=fill-in>description</span>. Card 2: <span class=fill-in>name</span> — <span class=fill-in>description</span>. Card 3: <span class=fill-in>name</span> — <span class=fill-in>description</span>."'
+  },
+  {
+    num: '05',
+    name: 'Testimonials',
+    role: 'Real words from real customers are more convincing than anything you write yourself. Even 2–3 genuine quotes make a significant difference to how trustworthy your site feels.',
+    contains: ['2–3 customer quotes', 'Customer name + location', 'Star rating (optional)', 'Clean card layout'],
+    tip: '💡 Don\'t have reviews yet? Ask 2–3 happy customers before your next market day. Even a quick text message reply counts.',
+    prompt: '"Add a Testimonials section with 3 quote cards. Quote 1: <span class=fill-in>quote</span> — <span class=fill-in>Name, City</span>. Quote 2: <span class=fill-in>quote</span> — <span class=fill-in>Name, City</span>. Quote 3: <span class=fill-in>quote</span> — <span class=fill-in>Name, City</span>. Show 5 stars above each."'
+  },
+  {
+    num: '06',
+    name: 'Call-to-Action Banner',
+    role: 'After visitors have read your story, seen your services, and read your reviews — this is where you invite them to take the next step. One clear ask. One button. Nothing else.',
+    contains: ['One strong headline', 'One action button only', 'Contrasting background colour', 'Links to contact or booking'],
+    tip: '💡 Pick one action only: book, call, order, or get a quote. Giving people two options here cuts your conversion in half.',
+    prompt: '"Add a full-width banner with a <span class=fill-in>colour</span> background. Headline: <span class=fill-in>e.g. Ready to work together?</span>. One button: <span class=fill-in>e.g. Get in touch</span>. Centred layout, large text."'
+  },
+  {
+    num: '07',
+    name: 'Footer',
+    role: 'The footer is where people go when they\'ve decided they want to contact you. Keep it clean — just the essentials. Every business website needs one.',
+    contains: ['Business name', 'Phone + email', 'Social media links', 'Copyright line'],
+    tip: '💡 Include your address if you have a physical location. For pop-up businesses, your Instagram handle is often more useful than a fixed address.',
+    prompt: '"Add a footer with a dark background. Business name: <span class=fill-in>name</span>. Phone: <span class=fill-in>number</span>. Email: <span class=fill-in>email</span>. Links to Instagram and Facebook. Copyright line: © 2025 <span class=fill-in>name</span>."'
+  }
+];
+
+let current = null;
+
+// Build tutorial bar dots
+const stepsEl = document.getElementById('tbar-steps');
+sections.forEach((s, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'tbar-dot';
+  dot.id = 'dot-' + i;
+  dot.textContent = i + 1;
+  dot.title = s.name;
+  dot.onclick = (e) => { e.stopPropagation(); openPanel(i); };
+  stepsEl.appendChild(dot);
+});
+
+function openPanel(idx) {
+  current = idx;
+  const s = sections[idx];
+
+  // Head
+  document.getElementById('panel-head').innerHTML = `
+    <div class="panel-section-num">Section ${s.num} of 07</div>
+    <div class="panel-title">${s.name}</div>
+    <p class="panel-role">${s.role}</p>
+  `;
+
+  // Body
+  const tags = s.contains.map(c => `<div class="contains-tag">${c}</div>`).join('');
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-section-label">What goes in this section</div>
+    <div class="contains-grid">${tags}</div>
+    <div class="panel-section-label" style="margin-top:18px">Sample prompt for Hostinger or Lovable</div>
+    <div class="panel-prompt">${s.prompt}</div>
+    <div class="panel-section-label" style="margin-top:18px">Facilitator tip</div>
+    <div class="panel-tip">${s.tip}</div>
+  `;
+
+  // Nav buttons
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === sections.length - 1;
+
+  // Active states
+  document.querySelectorAll('.annotated').forEach(el => el.classList.remove('active-section'));
+  document.querySelectorAll('.tbar-dot').forEach(d => d.classList.remove('active'));
+
+  const sectionIds = ['s-nav','s-hero','s-about','s-services','s-testimonials','s-cta','s-footer'];
+  document.getElementById(sectionIds[idx]).classList.add('active-section');
+  document.getElementById('dot-' + idx).classList.add('active');
+
+  // Open panel
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('side-panel').classList.add('open');
+
+  // Scroll section into view
+  document.getElementById(sectionIds[idx]).scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('side-panel').classList.remove('open');
+  document.querySelectorAll('.annotated').forEach(el => el.classList.remove('active-section'));
+  document.querySelectorAll('.tbar-dot').forEach(d => d.classList.remove('active'));
+  current = null;
+}
+
+function navigate(dir) {
+  if (current === null) return;
+  const next = current + dir;
+  if (next >= 0 && next < sections.length) openPanel(next);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePanel();
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+</script>
+</body>
+</html>
