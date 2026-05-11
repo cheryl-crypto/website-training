@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choosing & Connecting Your Domain — Workshop Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1C1A14; --ink-mid: #4A4740; --ink-light: #8A877E;
+    --cream: #FAF8F3; --cream-dark: #F0EBE0; --rule: #E0DDD6; --white: #FFFFFF;
+    --teal: #0F6E56; --teal-mid: #1D9E75; --teal-light: #E1F5EE; --teal-border: #9FE1CB;
+    --amber: #BA7517; --amber-light: #FAEEDA; --amber-border: #FAC775;
+    --coral: #D85A30; --coral-light: #FAECE7; --coral-border: #F5C4B3;
+    --host: #7B3FE4; --host-light: #F0EBFE; --host-border: #C4A8F7;
+    --love: #E8366F; --love-light: #FEE8F0; --love-border: #F8A8C4;
+    --godaddy: #1BDBAD; --godaddy-light: #E6FAF6; --godaddy-border: #9FEEDD;
+    --namecheap: #DE3723; --namecheap-light: #FAEAE8; --namecheap-border: #F5B8B2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    background: #E8E3D8;
+    color: var(--ink);
+    padding: 40px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 860px; margin: 0 auto; }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 48px 52px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::after {
+    content: '.ca .com .ca .com';
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 80px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .cover-eye { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-mid); margin-bottom: 12px; }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--cream); line-height: 1.1; margin-bottom: 14px; }
+  .cover-sub { font-size: 14px; color: rgba(250,248,243,.5); max-width: 520px; line-height: 1.65; margin-bottom: 24px; }
+
+  .cover-nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .cover-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .cover-pill:hover { opacity: 0.8; }
+  .cp-host { background: rgba(123,63,228,.2); color: #C4A8F7; border: 1px solid rgba(123,63,228,.3); }
+  .cp-love { background: rgba(232,54,111,.2); color: #F8A8C4; border: 1px solid rgba(232,54,111,.3); }
+  .cp-gd { background: rgba(27,219,173,.15); color: #1BDBAD; border: 1px solid rgba(27,219,173,.3); }
+  .cp-nc { background: rgba(222,55,35,.15); color: #F5A89F; border: 1px solid rgba(222,55,35,.3); }
+
+  /* ── SECTION HEADERS ── */
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    margin-top: 32px;
+  }
+
+  .sec-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .sec-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .sec-header p { font-size: 13px; color: var(--ink-light); margin-top: 2px; }
+
+  /* ── PLATFORM CARDS ── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .platform-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+
+  .platform-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .badge-host { background: var(--host-light); color: var(--host); border: 1px solid var(--host-border); }
+  .badge-love { background: var(--love-light); color: var(--love); border: 1px solid var(--love-border); }
+
+  .platform-head h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .platform-url { font-size: 11px; color: var(--teal-mid); letter-spacing: 0.04em; }
+
+  .platform-body { padding: 18px 24px; }
+
+  .pc-section-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pc-section-label.pro { color: var(--teal); }
+  .pc-section-label.con { color: var(--coral); }
+
+  .pc-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pro .pc-dot { background: var(--teal-mid); }
+  .con .pc-dot { background: var(--coral); }
+
+  .pc-list { list-style: none; margin-bottom: 16px; }
+
+  .pc-list li {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    padding: 5px 0 5px 20px;
+    position: relative;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  .pc-list li:last-child { border-bottom: none; }
+
+  .pc-list li::before {
+    position: absolute;
+    left: 0;
+    font-size: 13px;
+  }
+
+  .pc-list.pros li::before { content: '✓'; color: var(--teal-mid); }
+  .pc-list.cons li::before { content: '✗'; color: var(--coral); }
+
+  .platform-footer {
+    padding: 12px 24px;
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+  }
+
+  .platform-verdict {
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .platform-verdict strong { color: var(--ink); }
+
+  /* ── BEST FOR TAGS ── */
+  .best-for {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .bf-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--cream-dark);
+    color: var(--ink-mid);
+    border: 1px solid var(--rule);
+  }
+
+  /* ── PRICING STRIP ── */
+  .pricing-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .price-block {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .price-item { text-align: center; }
+
+  .price-amt {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .price-amt.free { color: var(--teal-mid); }
+  .price-plan { font-size: 10px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.08em; }
+  .price-note { font-size: 10px; color: var(--ink-light); margin-top: 2px; }
+
+  /* ── DOMAIN REGISTRARS ── */
+  .registrar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .registrar-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+
+  .registrar-head {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .reg-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .reg-gd { background: var(--godaddy-light); color: #0A8A6B; border: 1px solid var(--godaddy-border); }
+  .reg-nc { background: var(--namecheap-light); color: var(--namecheap); border: 1px solid var(--namecheap-border); }
+
+  .registrar-head h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .reg-url { font-size: 11px; color: var(--teal-mid); }
+
+  .registrar-body { padding: 16px 22px; }
+
+  .reg-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .reg-price-note { font-size: 11px; color: var(--ink-light); margin-bottom: 14px; }
+
+  .reg-points { list-style: none; }
+
+  .reg-points li {
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    padding: 5px 0 5px 18px;
+    position: relative;
+    border-bottom: 1px solid var(--cream-dark);
+    line-height: 1.5;
+  }
+
+  .reg-points li:last-child { border-bottom: none; }
+  .reg-points li::before { content: '·'; position: absolute; left: 6px; color: var(--ink-light); font-size: 16px; line-height: 1; top: 6px; }
+
+  .reg-footer {
+    padding: 10px 22px;
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .warning-box {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--amber-light);
+    border: 1px solid var(--amber-border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  /* ── DOMAIN STEPS ── */
+  .domain-tabs {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+
+  .tab-row {
+    display: flex;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream);
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-light);
+    letter-spacing: 0.04em;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+  .tab-btn:hover:not(.active) { color: var(--ink-mid); }
+
+  .tab-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .tab-content { display: none; padding: 0; }
+  .tab-content.active { display: block; }
+
+  .domain-section {
+    padding: 20px 26px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .domain-section:last-child { border-bottom: none; }
+
+  .domain-section-title {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .domain-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* Steps */
+  .steps-list { list-style: none; }
+
+  .step-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .step-item:last-child { margin-bottom: 0; }
+
+  .step-circle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-circle.host { background: var(--host-light); color: var(--host); border: 1px solid var(--host-border); }
+  .step-circle.love { background: var(--love-light); color: var(--love); border: 1px solid var(--love-border); }
+
+  .step-content { flex: 1; }
+
+  .step-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .step-desc {
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  .step-code {
+    display: inline-block;
+    background: var(--ink);
+    color: #9FE1CB;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  .step-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--amber-light);
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 11.5px;
+    color: var(--amber);
+    margin-top: 5px;
+  }
+
+  .step-success {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--teal-light);
+    border: 1px solid var(--teal-border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 11.5px;
+    color: var(--teal);
+    margin-top: 5px;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    font-size: 13px;
+  }
+
+  .comp-table thead {
+    background: var(--ink);
+  }
+
+  .comp-table thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(250,248,243,0.6);
+  }
+
+  .comp-table thead th:first-child { color: rgba(250,248,243,0.4); }
+
+  .comp-table thead th.th-host { color: #C4A8F7; }
+  .comp-table thead th.th-love { color: #F8A8C4; }
+  .comp-table thead th.th-gh { color: #7ECFF5; }
+
+  .comp-table tbody tr {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .comp-table tbody tr:last-child { border-bottom: none; }
+  .comp-table tbody tr:nth-child(even) { background: var(--cream); }
+
+  .comp-table td {
+    padding: 12px 18px;
+    color: var(--ink-mid);
+    vertical-align: top;
+  }
+
+  .comp-table td:first-child {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  .yes { color: var(--teal-mid); font-weight: 500; }
+  .no { color: var(--coral); }
+  .maybe { color: var(--amber); }
+
+  /* ── DECISION CARD ── */
+  .decision-card {
+    background: var(--ink);
+    border-radius: 10px;
+    padding: 32px 36px;
+    margin-bottom: 24px;
+  }
+
+  .decision-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 18px;
+  }
+
+  .decision-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .decision-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+
+  .decision-item h4 {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    color: rgba(250,248,243,0.5);
+  }
+
+  .decision-item .answer {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  .decision-item .why {
+    font-size: 11.5px;
+    color: rgba(250,248,243,0.45);
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .doc-footer { text-align: center; font-size: 11px; color: var(--ink-light); padding: 8px 0; }
+  .doc-footer a { color: var(--teal-mid); text-decoration: none; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: none; padding: 0; }
+    .page { max-width: 100%; }
+    .cover { border-radius: 0; padding: 28px 36px; }
+    .platform-grid, .registrar-grid, .pricing-strip, .decision-grid { grid-template-columns: 1fr 1fr; }
+    .tab-content { display: block !important; }
+    .tab-row { display: none; }
+    @page { margin: 14mm; }
+  }
+
+  @media (max-width: 640px) {
+    .platform-grid, .registrar-grid, .pricing-strip, .decision-grid { grid-template-columns: 1fr; }
+    .cover { padding: 28px 20px; }
+    .cover h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eye">Build Your Business with AI — Workshop Guide</div>
+  <h1>Choosing Your Platform<br>& Connecting Your Domain</h1>
+  <p class="cover-sub">A plain-English comparison of Hostinger and Lovable, two options for buying your domain, and step-by-step instructions for connecting everything together.</p>
+  <div class="cover-nav">
+    <a href="#platforms" class="cover-pill cp-host">Hostinger</a>
+    <a href="#platforms" class="cover-pill cp-love">Lovable</a>
+    <a href="#domains" class="cover-pill cp-gd">GoDaddy</a>
+    <a href="#domains" class="cover-pill cp-nc">Namecheap</a>
+  </div>
+</div>
+
+<!-- SECTION 1: PLATFORMS -->
+<div id="platforms">
+  <div class="sec-header">
+    <div class="sec-num">1</div>
+    <div>
+      <h2>Platform Comparison</h2>
+      <p>Hostinger vs Lovable — which is right for your business?</p>
+    </div>
+  </div>
+
+  <div class="platform-grid">
+
+    <!-- HOSTINGER -->
+    <div class="platform-card">
+      <div class="platform-head">
+        <div class="platform-badge badge-host">hostinger.com</div>
+        <h3>Hostinger</h3>
+        <div class="platform-url">hostinger.com</div>
+      </div>
+      <div class="platform-body">
+        <div class="pc-section-label pro"><div class="pc-dot"></div> What's great</div>
+        <ul class="pc-list pros">
+          <li>Visual drag-and-drop editor — no prompting needed after setup</li>
+          <li>E-commerce store built in on the Business plan</li>
+          <li>Domain and hosting included in one monthly price</li>
+          <li>Cheapest long-term option (~$4/month intro)</li>
+          <li>14-day free trial — no credit card needed</li>
+          <li>AI chat builds the initial site from your description</li>
+          <li>Easy for non-technical people to update independently</li>
+        </ul>
+        <div class="pc-section-label con"><div class="pc-dot"></div> Watch out for</div>
+        <ul class="pc-list cons">
+          <li>Proprietary system — you can't export your site code</li>
+          <li>Vendor lock-in — if you leave, the site goes down</li>
+          <li>Intro price requires 48-month upfront payment</li>
+          <li>Renewal price jumps significantly after first term</li>
+          <li>Limited customisation compared to coding from scratch</li>
+        </ul>
+      </div>
+      <div class="platform-footer">
+        <div class="platform-verdict"><strong>Best for:</strong> Small business owners who want a professional site they can update themselves without touching code.</div>
+        <div class="best-for">
+          <span class="bf-tag">Restaurants & cafés</span>
+          <span class="bf-tag">Service businesses</span>
+          <span class="bf-tag">Online stores</span>
+          <span class="bf-tag">Beginners</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOVABLE -->
+    <div class="platform-card">
+      <div class="platform-head">
+        <div class="platform-badge badge-love">lovable.dev</div>
+        <h3>Lovable</h3>
+        <div class="platform-url">lovable.dev</div>
+      </div>
+      <div class="platform-body">
+        <div class="pc-section-label pro"><div class="pc-dot"></div> What's great</div>
+        <ul class="pc-list pros">
+          <li>Generates real HTML/React code — you own it completely</li>
+          <li>No vendor lock-in — export and host anywhere</li>
+          <li>Visual editing (click any element to change it)</li>
+          <li>Connect to GitHub for version control and backup</li>
+          <li>Free plan available (5 credits/day) — no trial expiry</li>
+          <li>Strong AI — very responsive to detailed prompts</li>
+          <li>Can add Stripe payments with more flexibility</li>
+        </ul>
+        <div class="pc-section-label con"><div class="pc-dot"></div> Watch out for</div>
+        <ul class="pc-list cons">
+          <li>Free plan limited to 5 credits/day — runs out fast</li>
+          <li>Custom domain requires paid plan ($25/month)</li>
+          <li>More technical than Hostinger to set up and maintain</li>
+          <li>Adding a store requires Stripe + Supabase setup</li>
+          <li>Higher monthly cost than Hostinger if paying</li>
+        </ul>
+      </div>
+      <div class="platform-footer">
+        <div class="platform-verdict"><strong>Best for:</strong> Business owners who want to own their code, have flexibility to move hosts, and are comfortable learning a slightly more technical workflow.</div>
+        <div class="best-for">
+          <span class="bf-tag">Tech-comfortable users</span>
+          <span class="bf-tag">Simple info sites</span>
+          <span class="bf-tag">Code ownership</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-strip">
+    <div class="price-block" style="border-top: 3px solid var(--host);">
+      <div class="price-item">
+        <div class="price-amt free">Free</div>
+        <div class="price-plan">14-day trial</div>
+        <div class="price-note">Full access</div>
+      </div>
+      <div class="price-item">
+        <div class="price-amt">$4</div>
+        <div class="price-plan">Premium /mo</div>
+        <div class="price-note">48-month term</div>
+      </div>
+      <div class="price-item">
+        <div class="price-amt">$4</div>
+        <div class="price-plan">Business /mo</div>
+        <div class="price-note">Includes store</div>
+      </div>
+    </div>
+    <div class="price-block" style="border-top: 3px solid var(--love);">
+      <div class="price-item">
+        <div class="price-amt free">Free</div>
+        <div class="price-plan">Forever</div>
+        <div class="price-note">5 credits/day</div>
+      </div>
+      <div class="price-item">
+        <div class="price-amt">$25</div>
+        <div class="price-plan">Pro /mo</div>
+        <div class="price-note">Custom domain</div>
+      </div>
+      <div class="price-item">
+        <div class="price-amt">$50</div>
+        <div class="price-plan">Business /mo</div>
+        <div class="price-note">More credits</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th class="th-host">Hostinger</th>
+        <th class="th-love">Lovable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Free option</td><td class="maybe">14-day trial</td><td class="yes">✓ Free forever (limited)</td></tr>
+      <tr><td>Drag & drop editing</td><td class="yes">✓ Yes</td><td class="yes">✓ Yes (visual edits)</td></tr>
+      <tr><td>AI builds from prompt</td><td class="yes">✓ Yes</td><td class="yes">✓ Yes</td></tr>
+      <tr><td>You own the code</td><td class="no">✗ No</td><td class="yes">✓ Yes</td></tr>
+      <tr><td>E-commerce / store</td><td class="yes">✓ Built in (Business plan)</td><td class="maybe">Via Stripe (more setup)</td></tr>
+      <tr><td>Custom domain included</td><td class="yes">✓ On annual plans</td><td class="no">✗ Paid plan only</td></tr>
+      <tr><td>Can move to another host</td><td class="no">✗ No (locked in)</td><td class="yes">✓ Yes (export code)</td></tr>
+      <tr><td>Best monthly price</td><td class="yes">~$4/month</td><td class="maybe">$25/month (Pro)</td></tr>
+      <tr><td>Easiest for beginners</td><td class="yes">✓ Yes</td><td class="maybe">Moderate</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 2: DOMAIN REGISTRARS -->
+<div id="domains">
+  <div class="sec-header">
+    <div class="sec-num">2</div>
+    <div>
+      <h2>Buying Your Domain</h2>
+      <p>Two recommended options for purchasing yourbusiness.ca separately</p>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <div>⚠️</div>
+    <div><strong>Should you buy your domain inside Hostinger or Lovable?</strong> You can — and it keeps everything in one place. But buying from a separate registrar means you own the domain independently. If you ever switch platforms, your domain comes with you. Either way works — this is just good to know upfront.</div>
+  </div>
+
+  <div class="registrar-grid">
+
+    <!-- GODADDY -->
+    <div class="registrar-card">
+      <div class="registrar-head">
+        <div class="reg-badge reg-gd">godaddy.com</div>
+        <h3>GoDaddy</h3>
+        <div class="reg-url">godaddy.com</div>
+      </div>
+      <div class="registrar-body">
+        <div class="reg-price">~$15–25</div>
+        <div class="reg-price-note">per year for .ca or .com domains</div>
+        <ul class="reg-points">
+          <li>Most recognisable domain registrar in the world</li>
+          <li>Easy to search and buy — straightforward checkout</li>
+          <li>Good for .ca domains — strong Canadian support</li>
+          <li>24/7 customer support via phone and chat</li>
+          <li>DNS management is clear and beginner-friendly</li>
+          <li>Can also buy hosting here (not needed if using Hostinger)</li>
+        </ul>
+      </div>
+      <div class="reg-footer">
+        ⚠️ <strong>Watch out:</strong> GoDaddy's checkout is notorious for upselling extras — privacy protection, email, security add-ons. Decline everything and just buy the domain. You don't need the extras.
+      </div>
+    </div>
+
+    <!-- NAMECHEAP -->
+    <div class="registrar-card">
+      <div class="registrar-head">
+        <div class="reg-badge reg-nc">namecheap.com</div>
+        <h3>Namecheap</h3>
+        <div class="reg-url">namecheap.com</div>
+      </div>
+      <div class="registrar-body">
+        <div class="reg-price">~$10–18</div>
+        <div class="reg-price-note">per year — often cheaper than GoDaddy</div>
+        <ul class="reg-points">
+          <li>Often cheaper than GoDaddy, especially on renewal</li>
+          <li>Free WhoisGuard privacy protection included</li>
+          <li>Clean, no-nonsense checkout — less upselling</li>
+          <li>Well-regarded in the developer community</li>
+          <li>Slightly more technical interface than GoDaddy</li>
+          <li>Good DNS management panel</li>
+        </ul>
+      </div>
+      <div class="reg-footer">
+        💡 <strong>Recommended for:</strong> Anyone who wants to save a few dollars and get free privacy protection included without being upsold at checkout.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 3: CONNECTING YOUR DOMAIN -->
+<div id="connect">
+  <div class="sec-header">
+    <div class="sec-num">3</div>
+    <div>
+      <h2>Connecting Your Domain</h2>
+      <p>Step-by-step instructions for Hostinger and Lovable</p>
+    </div>
+  </div>
+
+  <div class="domain-tabs">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('hostinger')">
+        <div class="tab-dot" style="background:var(--host)"></div>
+        Hostinger
+      </button>
+      <button class="tab-btn" onclick="showTab('lovable')">
+        <div class="tab-dot" style="background:var(--love)"></div>
+        Lovable
+      </button>
+    </div>
+
+    <!-- HOSTINGER TAB -->
+    <div class="tab-content active" id="tab-hostinger">
+
+      <div class="domain-section">
+        <div class="domain-section-title">Option A — Buy domain inside Hostinger (easiest)</div>
+        <ul class="steps-list">
+          <li class="step-item">
+            <div class="step-circle host">1</div>
+            <div class="step-content">
+              <div class="step-title">Go to your Hostinger dashboard</div>
+              <div class="step-desc">Log in at hostinger.com → click <strong>Domains</strong> in the left sidebar</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">2</div>
+            <div class="step-content">
+              <div class="step-title">Search for your domain</div>
+              <div class="step-desc">Type <strong>yourbusiness.ca</strong> in the search box and click Search. Try .ca first for a Canadian business — it builds local trust.</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">3</div>
+            <div class="step-content">
+              <div class="step-title">Purchase and connect</div>
+              <div class="step-desc">Click Add to Cart → complete checkout. Hostinger will automatically connect the domain to your site — no DNS setup needed.</div>
+              <div class="step-success">✓ Done — your domain is live within minutes</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="domain-section">
+        <div class="domain-section-title">Option B — Bring your own domain from GoDaddy or Namecheap</div>
+        <ul class="steps-list">
+          <li class="step-item">
+            <div class="step-circle host">1</div>
+            <div class="step-content">
+              <div class="step-title">Get your Hostinger nameservers</div>
+              <div class="step-desc">In Hostinger dashboard → <strong>Hosting → Manage → DNS / Nameservers</strong>. Copy the two nameserver addresses shown (they look like <span class="step-code">ns1.dns-parking.com</span>)</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">2</div>
+            <div class="step-content">
+              <div class="step-title">Log into your domain registrar</div>
+              <div class="step-desc">Go to GoDaddy or Namecheap → find your domain → click <strong>Manage DNS</strong> or <strong>Nameservers</strong></div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">3</div>
+            <div class="step-content">
+              <div class="step-title">Replace the nameservers</div>
+              <div class="step-desc">Click <strong>Change Nameservers</strong> → delete the existing ones → paste in the two Hostinger nameservers you copied in Step 1</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">4</div>
+            <div class="step-content">
+              <div class="step-title">Add domain inside Hostinger</div>
+              <div class="step-desc">Back in Hostinger → <strong>Domains → Add Domain</strong> → type your domain name and click Connect</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle host">5</div>
+            <div class="step-content">
+              <div class="step-title">Wait for DNS to propagate</div>
+              <div class="step-desc">DNS changes take 1–24 hours to fully activate. Most are live within a few hours.</div>
+              <div class="step-note">⏱ Be patient — this part is out of your hands</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- LOVABLE TAB -->
+    <div class="tab-content" id="tab-lovable">
+
+      <div class="domain-section">
+        <div class="domain-section-title">Option A — Buy domain inside Lovable (easiest)</div>
+        <ul class="steps-list">
+          <li class="step-item">
+            <div class="step-circle love">1</div>
+            <div class="step-content">
+              <div class="step-title">Open your project settings</div>
+              <div class="step-desc">In Lovable editor → click the <strong>three dots menu</strong> top right → <strong>Settings → Domains</strong></div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">2</div>
+            <div class="step-content">
+              <div class="step-title">Click "Buy a Domain"</div>
+              <div class="step-desc">Search for your preferred domain name. Lovable uses Entri to handle domain registration — it's built into the flow.</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">3</div>
+            <div class="step-content">
+              <div class="step-title">Complete purchase and publish</div>
+              <div class="step-desc">Once purchased, Lovable connects the domain automatically. Click <strong>Publish</strong> to make your site live.</div>
+              <div class="step-note">⚠️ Requires a paid Lovable plan ($25/month Pro)</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="domain-section">
+        <div class="domain-section-title">Option B — Connect domain from GoDaddy or Namecheap</div>
+        <ul class="steps-list">
+          <li class="step-item">
+            <div class="step-circle love">1</div>
+            <div class="step-content">
+              <div class="step-title">Go to Lovable Settings → Domains</div>
+              <div class="step-desc">In your project → <strong>Settings → Domains → Connect Domain</strong> → type your domain name → click Continue</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">2</div>
+            <div class="step-content">
+              <div class="step-title">Select your DNS provider</div>
+              <div class="step-desc">Lovable will ask which provider you use — select <strong>GoDaddy</strong> or <strong>Namecheap</strong>. It will then show you the exact DNS records you need to add.</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">3</div>
+            <div class="step-content">
+              <div class="step-title">Add the CNAME record at your registrar</div>
+              <div class="step-desc">Log into GoDaddy or Namecheap → <strong>Manage DNS</strong> → Add a new <strong>CNAME record</strong> pointing to the address Lovable gave you</div>
+              <div><span class="step-code">CNAME → www → your-project.lovable.app</span></div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">4</div>
+            <div class="step-content">
+              <div class="step-title">Verify in Lovable</div>
+              <div class="step-desc">Back in Lovable Settings → click <strong>Verify</strong>. Lovable will automatically issue an SSL certificate (the padlock in the browser).</div>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-circle love">5</div>
+            <div class="step-content">
+              <div class="step-title">Wait and publish</div>
+              <div class="step-desc">DNS changes can take up to 24 hours. Once the domain shows as <strong>Live</strong> in settings, click Publish to go live.</div>
+              <div class="step-success">✓ Your site is live at yourbusiness.ca</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DECISION CARD -->
+<div class="decision-card">
+  <h2>Quick Decision Guide</h2>
+  <div class="decision-grid">
+    <div class="decision-item">
+      <h4>I want the easiest option</h4>
+      <div class="answer">Hostinger</div>
+      <div class="why">Buy domain inside Hostinger — one account, one bill, connects automatically</div>
+    </div>
+    <div class="decision-item">
+      <h4>I want to own my code</h4>
+      <div class="answer">Lovable Pro</div>
+      <div class="why">Export to GitHub, connect your domain, host anywhere — no lock-in</div>
+    </div>
+    <div class="decision-item">
+      <h4>I want a store</h4>
+      <div class="answer">Hostinger Business</div>
+      <div class="why">E-commerce built in, ~$4/month, domain included — simplest store setup</div>
+    </div>
+    <div class="decision-item">
+      <h4>I want the cheapest domain</h4>
+      <div class="answer">Namecheap</div>
+      <div class="why">Cheaper than GoDaddy, free privacy protection, less upselling</div>
+    </div>
+    <div class="decision-item">
+      <h4>I want the most familiar name</h4>
+      <div class="answer">GoDaddy</div>
+      <div class="why">Most recognisable registrar, good .ca support, 24/7 phone support</div>
+    </div>
+    <div class="decision-item">
+      <h4>I just want free for now</h4>
+      <div class="answer">Lovable free plan</div>
+      <div class="why">Site stays live at yourname.lovable.app — upgrade for custom domain later</div>
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  Build Your Business with AI — Saint John Workshop &nbsp;·&nbsp;
+  <a href="https://cheryl-crypto.github.io/website-training/">Demo site</a> &nbsp;·&nbsp;
+  <a href="https://hostinger.com">hostinger.com</a> &nbsp;·&nbsp;
+  <a href="https://lovable.dev">lovable.dev</a> &nbsp;·&nbsp;
+  <a href="https://godaddy.com">godaddy.com</a> &nbsp;·&nbsp;
+  <a href="https://namecheap.com">namecheap.com</a>
+</div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
