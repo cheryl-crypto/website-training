@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Website with AI — Session Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1C1A14; --ink-mid: #4A4740; --ink-light: #8A877E;
+    --cream: #FAF8F3; --cream-dark: #F0EBE0; --rule: #E0DDD6; --white: #FFFFFF;
+    --teal: #0F6E56; --teal-mid: #1D9E75; --teal-light: #E1F5EE; --teal-border: #9FE1CB;
+    --amber: #BA7517; --amber-light: #FAEEDA; --amber-border: #FAC775;
+    --coral: #D85A30; --coral-light: #FAECE7; --coral-border: #F5C4B3;
+    --host: #7B3FE4; --host-light: #F0EBFE; --host-border: #C4A8F7;
+    --love: #E8366F; --love-light: #FEE8F0; --love-border: #F8A8C4;
+    --claude: #D97706; --claude-light: #FEF3C7; --claude-border: #FCD34D;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    background: #E8E3D8;
+    color: var(--ink);
+    padding: 40px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 820px; margin: 0 auto; }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 48px 52px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::after {
+    content: 'BUILD';
+    position: absolute;
+    right: -20px; bottom: -20px;
+    font-size: 120px; font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+
+  .cover-eye { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-mid); margin-bottom: 12px; }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--cream); line-height: 1.1; margin-bottom: 14px; }
+  .cover-sub { font-size: 14px; color: rgba(250,248,243,.5); max-width: 520px; line-height: 1.65; margin-bottom: 24px; }
+
+  .cover-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .cover-link {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 12px; font-weight: 500;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .cover-link:hover { opacity: 0.8; }
+  .cl-claude { background: var(--claude-light); color: var(--claude); border: 1px solid var(--claude-border); }
+  .cl-host { background: var(--host-light); color: var(--host); border: 1px solid var(--host-border); }
+  .cl-love { background: var(--love-light); color: var(--love); border: 1px solid var(--love-border); }
+  .cl-guide { background: rgba(29,158,117,0.15); color: var(--teal-mid); border: 1px solid rgba(29,158,117,0.3); }
+
+  /* ── WHAT YOU NEED BOX ── */
+  .needs-box {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .needs-head {
+    background: var(--cream);
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-light);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .needs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .need-item {
+    padding: 16px 20px;
+    border-right: 1px solid var(--rule);
+  }
+
+  .need-item:last-child { border-right: none; }
+
+  .need-tool {
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    margin-bottom: 3px;
+    display: flex; align-items: center; gap: 7px;
+  }
+
+  .need-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .nd-claude { background: var(--claude); }
+  .nd-host { background: var(--host); }
+  .nd-love { background: var(--love); }
+
+  .need-how { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+  .need-how a { color: var(--teal-mid); text-decoration: none; }
+
+  /* ── PHASE HEADERS ── */
+  .phase {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px; margin-top: 28px;
+  }
+
+  .phase-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--ink); color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; flex-shrink: 0;
+  }
+
+  .phase h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; color: var(--ink);
+  }
+
+  .phase p { font-size: 12px; color: var(--ink-light); margin-top: 1px; }
+
+  /* ── STEP CARDS ── */
+  .step-card {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .step-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 22px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .step-n {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; flex-shrink: 0;
+    color: white;
+  }
+
+  .sn-claude { background: var(--claude); }
+  .sn-host { background: var(--host); }
+  .sn-love { background: var(--love); }
+  .sn-both { background: linear-gradient(135deg, var(--host), var(--love)); }
+  .sn-teal { background: var(--teal-mid); }
+
+  .step-info { flex: 1; }
+  .step-lbl { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 1px; }
+  .step-h { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); }
+
+  .step-tag {
+    font-size: 10px; font-weight: 500;
+    padding: 3px 10px; border-radius: 12px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  .st-claude { background: var(--claude-light); color: var(--claude); border: 1px solid var(--claude-border); }
+  .st-host { background: var(--host-light); color: var(--host); border: 1px solid var(--host-border); }
+  .st-love { background: var(--love-light); color: var(--love); border: 1px solid var(--love-border); }
+  .st-both { background: var(--cream-dark); color: var(--ink-mid); border: 1px solid var(--rule); }
+  .st-teal { background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-border); }
+
+  .step-body { padding: 16px 22px; }
+
+  .step-desc {
+    font-size: 13px; color: var(--ink-mid); line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  /* ── INSTRUCTION LIST ── */
+  .inst-list { list-style: none; margin-bottom: 12px; }
+
+  .inst-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  .inst-item:last-child { border-bottom: none; }
+
+  .inst-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--cream-dark); color: var(--ink-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .inst-text { font-size: 13px; color: var(--ink-mid); line-height: 1.6; flex: 1; }
+  .inst-text strong { color: var(--ink); font-weight: 500; }
+  .inst-text a { color: var(--teal-mid); text-decoration: none; font-weight: 500; }
+
+  /* ── CODE / URL PILL ── */
+  .url-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--ink); color: #9FE1CB;
+    font-family: monospace; font-size: 12px;
+    padding: 3px 10px; border-radius: 5px;
+    margin: 3px 0;
+  }
+
+  /* ── TIP / NOTE / WARNING ── */
+  .tip {
+    display: flex; gap: 8px; align-items: flex-start;
+    background: var(--amber-light); border: 1px solid var(--amber-border);
+    border-radius: 6px; padding: 10px 12px;
+    font-size: 12px; color: var(--ink-mid); line-height: 1.55;
+    margin-top: 10px;
+  }
+
+  .note {
+    display: flex; gap: 8px; align-items: flex-start;
+    background: var(--teal-light); border: 1px solid var(--teal-border);
+    border-radius: 6px; padding: 10px 12px;
+    font-size: 12px; color: var(--teal); line-height: 1.55;
+    margin-top: 10px;
+  }
+
+  .warning {
+    display: flex; gap: 8px; align-items: flex-start;
+    background: var(--coral-light); border: 1px solid var(--coral-border);
+    border-radius: 6px; padding: 10px 12px;
+    font-size: 12px; color: var(--coral); line-height: 1.55;
+    margin-top: 10px;
+  }
+
+  /* ── ANATOMY MINI DIAGRAM ── */
+  .anatomy-strip {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 4px; margin-bottom: 14px;
+  }
+
+  .anat-item {
+    border-radius: 4px; padding: 8px 6px;
+    text-align: center; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ── PROMPT EXAMPLE ── */
+  .prompt-example {
+    background: #F6FAF8;
+    border: 1px solid var(--teal-border);
+    border-left: 4px solid var(--teal-mid);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    font-size: 12.5px; color: var(--ink);
+    line-height: 1.7; font-style: italic;
+    margin-top: 10px;
+  }
+
+  .prompt-label {
+    font-size: 10px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--teal); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── COMPARE BOX ── */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 10px;
+  }
+
+  .compare-block { border-radius: 6px; overflow: hidden; }
+
+  .compare-head {
+    padding: 7px 12px;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .compare-block.host .compare-head { background: var(--host-light); color: var(--host); }
+  .compare-block.love .compare-head { background: var(--love-light); color: var(--love); }
+
+  .compare-body {
+    padding: 11px 12px;
+    font-size: 12.5px; color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  .compare-block.host .compare-body { background: var(--host-light); }
+  .compare-block.love .compare-body { background: var(--love-light); }
+
+  /* ── PUBLISH CARD ── */
+  .publish-card {
+    background: var(--ink); border-radius: 10px;
+    padding: 28px 32px; margin-bottom: 18px;
+  }
+
+  .publish-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--cream); margin-bottom: 16px;
+  }
+
+  .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .pub-block {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 14px 16px;
+  }
+
+  .pub-block h4 { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 8px; }
+  .pub-block.h h4 { color: #C4A8F7; }
+  .pub-block.l h4 { color: #F8A8C4; }
+
+  .pub-step {
+    display: flex; gap: 8px; align-items: flex-start;
+    margin-bottom: 6px; font-size: 12px;
+    color: rgba(250,248,243,0.5); line-height: 1.5;
+  }
+
+  .psn {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: rgba(250,248,243,0.5); flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* ── RESOURCES ── */
+  .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+
+  .res-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 8px; padding: 14px 16px;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    display: block;
+  }
+
+  .res-card:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .res-card-lbl { font-size: 10px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .res-card-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .res-card-url { font-size: 11px; color: var(--teal-mid); }
+
+  .footer { text-align: center; font-size: 11px; color: var(--ink-light); padding: 8px 0; }
+  .footer a { color: var(--teal-mid); text-decoration: none; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: none; padding: 0; }
+    .page { max-width: 100%; }
+    .cover { border-radius: 0; padding: 28px 36px; }
+    .step-card, .publish-card { break-inside: avoid; }
+    .compare-grid, .pub-grid, .needs-grid { grid-template-columns: 1fr 1fr; }
+    @page { margin: 14mm; }
+  }
+
+  @media (max-width: 640px) {
+    .needs-grid, .compare-grid, .pub-grid, .res-grid { grid-template-columns: 1fr; }
+    .anatomy-strip { grid-template-columns: repeat(4, 1fr); }
+    .cover { padding: 28px 20px; }
+    .cover h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eye">ConnexionWorks — Business Essentials Workshop</div>
+  <h1>Build Your Website<br>with AI</h1>
+  <p class="cover-sub">Your step-by-step guide from the session. Follow along to build your own one-page scrolling website using Claude and your choice of Hostinger or Lovable. Keep this page — you can come back to it any time.</p>
+  <div class="cover-links">
+    <a class="cover-link cl-claude" href="https://claude.ai" target="_blank">Claude — claude.ai</a>
+    <a class="cover-link cl-host" href="https://hostinger.com" target="_blank">Hostinger — hostinger.com</a>
+    <a class="cover-link cl-love" href="https://lovable.dev" target="_blank">Lovable — lovable.dev</a>
+    <a class="cover-link cl-guide" href="https://cheryl-crypto.github.io/website-training/" target="_blank">Workshop Materials</a>
+  </div>
+</div>
+
+<!-- WHAT YOU NEED -->
+<div class="needs-box">
+  <div class="needs-head">Before you start — create free accounts at these three tools</div>
+  <div class="needs-grid">
+    <div class="need-item">
+      <div class="need-tool"><div class="need-dot nd-claude"></div> Claude</div>
+      <div class="need-how">Go to <a href="https://claude.ai" target="_blank">claude.ai</a> and sign up with your Google account or email. This is your AI thinking partner for writing content.</div>
+    </div>
+    <div class="need-item">
+      <div class="need-tool"><div class="need-dot nd-host"></div> Hostinger</div>
+      <div class="need-how">Go to <a href="https://hostinger.com" target="_blank">hostinger.com</a> and start the free 14-day trial. Sign up with Google or your email. No credit card needed.</div>
+    </div>
+    <div class="need-item">
+      <div class="need-tool"><div class="need-dot nd-love"></div> Lovable</div>
+      <div class="need-how">Go to <a href="https://lovable.dev" target="_blank">lovable.dev</a> and click Get Started. Sign in with Google. Free plan gives you 5 credits per day — no download needed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 1 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">1</div>
+  <div>
+    <h2>Understand the Anatomy of a Website</h2>
+    <p>Before you build anything, learn the names of each section so you can talk to the AI clearly</p>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-teal">1</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 1</div>
+      <div class="step-h">Open the Interactive Anatomy Demo</div>
+    </div>
+    <div class="step-tag st-teal">Workshop site</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">Open the demo site on your device. Every section of a real website is labelled and clickable. Tap each one to see what it does and what goes in it.</p>
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go to <a href="https://cheryl-crypto.github.io/website-training/" target="_blank">cheryl-crypto.github.io/website-training/</a></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Click on <strong>Anatomy Demo</strong> to open the interactive page</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">Click each numbered section — a panel slides in explaining what it is, what goes in it, and a sample prompt you can use</div>
+      </li>
+    </ul>
+    <div class="anatomy-strip">
+      <div class="anat-item" style="background:#E6F1FB;color:#0C447C;">Nav Bar</div>
+      <div class="anat-item" style="background:#FAEEDA;color:#633806;">Hero</div>
+      <div class="anat-item" style="background:#FBEAF0;color:#72243E;">About</div>
+      <div class="anat-item" style="background:#E1F5EE;color:#0F6E56;">Services</div>
+      <div class="anat-item" style="background:#EAF3DE;color:#27500A;">Reviews</div>
+      <div class="anat-item" style="background:#EEEDFE;color:#3C3489;">CTA</div>
+      <div class="anat-item" style="background:#F1EFE8;color:#2C2C2A;">Footer</div>
+    </div>
+    <div class="note">✓ You do not need to remember all of this right now. The demo stays open on your screen while you build — refer back to it any time.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 2 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">2</div>
+  <div>
+    <h2>Use Claude to Plan Your Website</h2>
+    <p>Claude helps you write your content before you build anything</p>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-claude">2</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 2</div>
+      <div class="step-h">Sign Into Claude</div>
+    </div>
+    <div class="step-tag st-claude">Claude</div>
+  </div>
+  <div class="step-body">
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go to <a href="https://claude.ai" target="_blank">claude.ai</a> in your browser</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Click <strong>Sign In</strong> and choose <strong>Continue with Google</strong> — this is the fastest way to get started</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">Once in, you will see a chat box. This is where you type your questions and requests</div>
+      </li>
+    </ul>
+    <div class="warning">⚠️ Watch the URL — make sure it says <strong>claude.ai</strong>. If you search Google for Claude, make sure you click the right result. Look for the URL before clicking.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-claude">3</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 3</div>
+      <div class="step-h">Ask Claude to Help Write Your Hero Headline</div>
+    </div>
+    <div class="step-tag st-claude">Claude</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">Your hero headline is the first thing visitors read — your big hook. If you are not sure what to say, ask Claude to write a few options for you.</p>
+    <div class="prompt-label">Sample prompt to type into Claude</div>
+    <div class="prompt-example">"Write 3 short hero headlines for my business. I run a [describe your business] called [your business name] in Saint John, NB. My customers are [describe them]. The tone should feel [warm / professional / fun / exciting]. Keep each headline under 8 words."</div>
+    <div class="tip">💡 Pick the one that feels most like you. You can always tweak the wording — Claude gives you a starting point, not the final answer.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-claude">4</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 4</div>
+      <div class="step-h">Ask Claude to Help Choose Your Colours</div>
+    </div>
+    <div class="step-tag st-claude">Claude</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">The colours you choose set the mood of your website. If you are not sure where to start, ask Claude for guidance based on how you want customers to feel.</p>
+    <div class="prompt-label">Sample prompt to type into Claude</div>
+    <div class="prompt-example">"What are the best colour schemes for branding a [type of business] that should feel [calm / energetic / trustworthy / creative / luxurious]? Give me 2 or 3 options with colour names."</div>
+    <div class="tip">💡 As Cheryl explained in the session — circles are the most powerful shape in design, and the psychology of colour really matters. Soft blues and greens feel calm and healing. Gold and cream feel warm and premium. Pick what feels like your brand.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 3 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">3</div>
+  <div>
+    <h2>Fill In Your Business Brief</h2>
+    <p>This is the most important step — it powers every prompt below</p>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-teal">5</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 5</div>
+      <div class="step-h">Open the Step-by-Step Prompt Guide</div>
+    </div>
+    <div class="step-tag st-teal">Workshop site</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">This is the tool we used in the session. Fill in your business details at the top and every prompt on the page automatically updates with your information.</p>
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go to <a href="https://cheryl-crypto.github.io/website-training/step-by-step/" target="_blank">cheryl-crypto.github.io/website-training/step-by-step/</a></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Fill in <strong>Step 0 — Your Business Brief</strong> at the top of the page. Include your business name, type, customers, tone, colours, headline, tagline, services, and contact details</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">Watch your answers appear automatically in every yellow highlighted spot throughout the page — this is your personalised prompt guide</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">4</div>
+        <div class="inst-text">Your answers are <strong>saved in your browser</strong> — close the tab and come back any time and your details will still be there</div>
+      </li>
+    </ul>
+    <div class="note">✓ The progress bar at the top of the brief shows how many fields you have filled in. Try to complete all 12 before moving on.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 4 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">4</div>
+  <div>
+    <h2>Send the Master Prompt and Build Your Site</h2>
+    <p>One prompt builds the full page structure — then short adjustments for each section</p>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-both">6</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 6</div>
+      <div class="step-h">Choose Your Builder — Hostinger or Lovable</div>
+    </div>
+    <div class="step-tag st-both">Your choice</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">You can use either tool — or try both. As discussed in the session, they are similar but different. Here is the quick version:</p>
+    <div class="compare-grid">
+      <div class="compare-block host">
+        <div class="compare-head"><div style="width:7px;height:7px;border-radius:50%;background:var(--host)"></div> Hostinger</div>
+        <div class="compare-body">Drag and drop editing after the AI builds. Domain and hosting included. Easiest to update yourself. Great for stores. You are locked in to the platform.</div>
+      </div>
+      <div class="compare-block love">
+        <div class="compare-head"><div style="width:7px;height:7px;border-radius:50%;background:var(--love)"></div> Lovable</div>
+        <div class="compare-body">You own the code. Can connect bookings, payments, databases. Export to GitHub. More flexible long term. Free plan available with 5 credits per day.</div>
+      </div>
+    </div>
+    <div class="tip">💡 Not sure? Start with Hostinger for the easiest experience, or Lovable if you want more flexibility. You can always try both — they are both free to start.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-host">7</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 7 — Hostinger</div>
+      <div class="step-h">Create Your Hostinger Account and Start Building</div>
+    </div>
+    <div class="step-tag st-host">Hostinger only</div>
+  </div>
+  <div class="step-body">
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go to <a href="https://hostinger.com" target="_blank">hostinger.com</a> and click <strong>Get Started</strong></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Sign up with your <strong>Google account</strong> or email address — no credit card needed for the free trial</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">When prompted, select <strong>Create Website</strong></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">4</div>
+        <div class="inst-text">You will see an AI chat box. This is where you will paste your Master Prompt in the next step</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">5</div>
+        <div class="inst-text">If it asks you to choose a plan, ignore the upgrade prompts for now — you can continue on the free trial</div>
+      </li>
+    </ul>
+    <div class="warning">⚠️ Hostinger may show you pricing and ask you to buy. Do not pay anything yet. Look for the option to continue with the free trial or use the builder for free.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-love">8</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 7 — Lovable</div>
+      <div class="step-h">Create Your Lovable Account and Start Building</div>
+    </div>
+    <div class="step-tag st-love">Lovable only</div>
+  </div>
+  <div class="step-body">
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go to <a href="https://lovable.dev" target="_blank">lovable.dev</a> — make sure there is no E at the end: L-O-V-A-B-L-E dot D-E-V</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Click <strong>Get Started</strong> and sign in with your <strong>Google account</strong></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">Click <strong>New Project</strong> to start a fresh website</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">4</div>
+        <div class="inst-text">You will see a chat box on the left. This is where you paste your Master Prompt</div>
+      </li>
+    </ul>
+    <div class="warning">⚠️ If you search Google for Lovable, be careful — there are other sites with similar names. Check the URL says <strong>lovable.dev</strong> before signing in.</div>
+    <div class="tip">💡 Lovable gives you 5 free credits per day. Each big prompt uses about 1–2 credits. Plan your prompts carefully — one good detailed prompt beats five small ones.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-both">9</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 8 — The Key Step</div>
+      <div class="step-h">Send the Master Prompt</div>
+    </div>
+    <div class="step-tag st-both">Hostinger or Lovable</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">This is the most important prompt you will send. It tells the AI everything about your business in one go so it can build the full site structure. You only do this once.</p>
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text">Go back to your prompt guide at <a href="https://cheryl-crypto.github.io/website-training/step-by-step/" target="_blank">the workshop site</a></div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text">Scroll down to find <strong>The Master Prompt</strong> section — you will see your business details already filled in automatically</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text">Click the <strong>Copy</strong> button on the Hostinger or Lovable version — whichever tool you are using</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">4</div>
+        <div class="inst-text">Go to your builder and paste it into the chat box — <strong>Ctrl + V</strong> on Windows or <strong>Command + V</strong> on Mac</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">5</div>
+        <div class="inst-text">Press <strong>Enter</strong> and watch the AI build your site</div>
+      </li>
+    </ul>
+    <div class="note">✓ After the master prompt, the AI knows your business. Every prompt after this is just a short adjustment — you do not need to repeat your details.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 5 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">5</div>
+  <div>
+    <h2>Update Each Section</h2>
+    <p>Use short adjustment prompts to fine-tune each part of your site</p>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-both">10</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 9</div>
+      <div class="step-h">Work Through Sections 1 to 7</div>
+    </div>
+    <div class="step-tag st-both">Hostinger or Lovable</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">The prompt guide has a short adjustment prompt for each of the 7 sections. Use these one at a time to update your content. Each prompt is ready to copy and paste.</p>
+    <ul class="inst-list">
+      <li class="inst-item">
+        <div class="inst-num">1</div>
+        <div class="inst-text"><strong>Nav bar</strong> — update your business name and menu button text</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">2</div>
+        <div class="inst-text"><strong>Hero section</strong> — update your headline, tagline, and button</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">3</div>
+        <div class="inst-text"><strong>About section</strong> — paste in the text you wrote with Claude. Your origin story, why you started, what makes you different</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">4</div>
+        <div class="inst-text"><strong>Services section</strong> — update your 3 service or product cards with real names, descriptions, and prices</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">5</div>
+        <div class="inst-text"><strong>Testimonials</strong> — add real customer quotes, or use placeholders for now and update them later</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">6</div>
+        <div class="inst-text"><strong>CTA banner</strong> — your one clear call to action. Book, call, get a quote — pick one</div>
+      </li>
+      <li class="inst-item">
+        <div class="inst-num">7</div>
+        <div class="inst-text"><strong>Footer</strong> — your business name, email, phone, and social media links</div>
+      </li>
+    </ul>
+    <div class="tip">💡 As Cheryl said in the session — done is better than perfect. Get the structure up first. You can refine the words and photos any time after.</div>
+  </div>
+</div>
+
+<div class="step-card">
+  <div class="step-head">
+    <div class="step-n sn-both">11</div>
+    <div class="step-info">
+      <div class="step-lbl">Step 10</div>
+      <div class="step-h">Add Your Photos</div>
+    </div>
+    <div class="step-tag st-both">Hostinger or Lovable</div>
+  </div>
+  <div class="step-body">
+    <p class="step-desc">The AI will have put placeholder images in. Replace them with your own photos to make the site feel like yours.</p>
+    <div class="compare-grid">
+      <div class="compare-block host">
+        <div class="compare-head"><div style="width:7px;height:7px;border-radius:50%;background:var(--host)"></div> In Hostinger</div>
+        <div class="compare-body">Click directly on any image in the visual editor. A replace option will appear. Upload your photo from your computer.</div>
+      </div>
+      <div class="compare-block love">
+        <div class="compare-head"><div style="width:7px;height:7px;border-radius:50%;background:var(--love)"></div> In Lovable</div>
+        <div class="compare-body">Look for the <strong>+ plus sign</strong> at the bottom left of the chat box. Click it to attach your photo. Then type: "Use this as my hero image" or "Replace the about section photo with this."</div>
+      </div>
+    </div>
+    <div class="tip">💡 Save your photos as JPG not PNG for the best results. JPG files are much smaller and load faster. PNG files are better for logos with transparent backgrounds.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PHASE 6 -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="phase">
+  <div class="phase-num">6</div>
+  <div>
+    <h2>Publish Your Site</h2>
+    <p>Get your website live so you can share it with customers</p>
+  </div>
+</div>
+
+<div class="publish-card">
+  <h3>Publishing Your Website</h3>
+  <div class="pub-grid">
+    <div class="pub-block h">
+      <h4>Hostinger</h4>
+      <div class="pub-step"><div class="psn">1</div> Click <strong style="color:rgba(250,248,243,.8)">Publish</strong> in the top right of the editor</div>
+      <div class="pub-step"><div class="psn">2</div> Use the free subdomain for now — yoursite.hostingersite.com</div>
+      <div class="pub-step"><div class="psn">3</div> Your site is live — copy the link and share it</div>
+      <div class="pub-step"><div class="psn">4</div> To add a custom domain like yourbusiness.ca, go to Domains in your dashboard</div>
+    </div>
+    <div class="pub-block l">
+      <h4>Lovable</h4>
+      <div class="pub-step"><div class="psn">1</div> Click <strong style="color:rgba(250,248,243,.8)">Share</strong> in the top right — your site is already live on a lovable.app URL</div>
+      <div class="pub-step"><div class="psn">2</div> Copy the link and open it in a new tab to see it live</div>
+      <div class="pub-step"><div class="psn">3</div> To access your code, click the code icon at the top of the editor</div>
+      <div class="pub-step"><div class="psn">4</div> To add a custom domain, go to Settings → Custom Domain (paid plan required)</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-light);margin-bottom:10px;">All workshop resources — bookmark these</div>
+<div class="res-grid">
+  <a class="res-card" href="https://cheryl-crypto.github.io/website-training/" target="_blank">
+    <div class="res-card-lbl">Demo website</div>
+    <div class="res-card-name">Bonjour Crêpes — See what you are building toward</div>
+    <div class="res-card-url">cheryl-crypto.github.io/website-training/</div>
+  </a>
+  <a class="res-card" href="https://cheryl-crypto.github.io/website-training/step-by-step/" target="_blank">
+    <div class="res-card-lbl">Your prompt guide</div>
+    <div class="res-card-name">Step-by-Step Prompt Guide — Fill in once, use everywhere</div>
+    <div class="res-card-url">website-training/step-by-step/</div>
+  </a>
+  <a class="res-card" href="https://cheryl-crypto.github.io/website-training/platform-domain-guide.html" target="_blank">
+    <div class="res-card-lbl">Platforms and domains</div>
+    <div class="res-card-name">Hostinger vs Lovable — Pros, cons, and how to connect a domain</div>
+    <div class="res-card-url">website-training/platform-domain-guide.html</div>
+  </a>
+  <a class="res-card" href="https://cheryl-crypto.github.io/website-training/website-anatomy-demo.html" target="_blank">
+    <div class="res-card-lbl">Interactive demo</div>
+    <div class="res-card-name">Website Anatomy — Click each section to learn what it does</div>
+    <div class="res-card-url">website-training/website-anatomy-demo.html</div>
+  </a>
+</div>
+
+<div class="footer">
+  Build Your Business with AI — ConnexionWorks Saint John &nbsp;·&nbsp;
+  Facilitated by Cheryl Willson, Brilliant Labs &nbsp;·&nbsp;
+  <a href="https://cheryl-crypto.github.io/website-training/">Workshop materials</a> &nbsp;·&nbsp;
+  <a href="https://claude.ai">claude.ai</a> &nbsp;·&nbsp;
+  <a href="https://hostinger.com">hostinger.com</a> &nbsp;·&nbsp;
+  <a href="https://lovable.dev">lovable.dev</a>
+</div>
+
+</div>
+</body>
+</html>
